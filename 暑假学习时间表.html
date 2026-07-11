@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暑假学习时间表 · 2026年7月</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: #F5F3F0;
+            color: #5A5550;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 1.6em;
+            font-weight: 600;
+            color: #6B6560;
+            margin-bottom: 5px;
+        }
+
+        .header .subtitle {
+            font-size: 0.85em;
+            color: #A09A95;
+        }
+
+        .schedule-container {
+            background: #FFFFFF;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #7A7470;
+            margin-bottom: 16px;
+            padding-left: 12px;
+            border-left: 3px solid #C4B8B0;
+        }
+
+        .time-block {
+            display: flex;
+            align-items: stretch;
+            min-height: 52px;
+            border-radius: 10px;
+            margin-bottom: 6px;
+            overflow: hidden;
+            transition: transform 0.15s ease;
+        }
+
+        .time-block:hover {
+            transform: translateX(4px);
+        }
+
+        .time-label {
+            flex-shrink: 0;
+            width: 110px;
+            padding: 10px 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+            color: #8A8480;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #FAF8F5;
+            border-right: 1px solid #F0EDEA;
+        }
+
+        .content {
+            flex: 1;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .content .subject {
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .content .duration {
+            font-size: 0.8em;
+            opacity: 0.7;
+        }
+
+        .content .note {
+            font-size: 0.75em;
+            opacity: 0.6;
+            margin-top: 2px;
+        }
+
+        /* Morandi color scheme */
+        .homework    { background: #D5CDC8; color: #5A5550; }
+        .break       { background: #EAE7E4; color: #ABA5A0; min-height: 36px !important; }
+        .break .time-label { background: #F5F3F0; }
+        .math        { background: #A8B5C4; color: #FFFFFF; }
+        .physics     { background: #9CAF88; color: #FFFFFF; }
+        .chemistry   { background: #C4A9A8; color: #FFFFFF; }
+        .english     { background: #A89BB0; color: #FFFFFF; }
+        .mixed-test  { background: #BC8F7A; color: #FFFFFF; }
+        .wrap-up     { background: #D4C5B0; color: #5A5550; }
+        .chinese     { background: #D4A5A5; color: #FFFFFF; }
+        .daoli       { background: #A8B098; color: #FFFFFF; }
+        .computer    { background: #B0B8C0; color: #FFFFFF; }
+        .free        { background: #EDE9E4; color: #ABA5A0; }
+
+        .break .content {
+            font-size: 0.8em;
+        }
+
+        .divider {
+            text-align: center;
+            font-size: 0.75em;
+            color: #C5BFB8;
+            margin: 8px 0;
+            letter-spacing: 2px;
+        }
+
+        .weekly-grid {
+            display: grid;
+            grid-template-columns: 80px repeat(5, 1fr);
+            gap: 3px;
+            font-size: 0.75em;
+        }
+
+        .grid-header {
+            background: #E8E4E1;
+            padding: 8px 4px;
+            text-align: center;
+            border-radius: 6px;
+            font-weight: 600;
+            color: #7A7470;
+        }
+
+        .grid-time {
+            background: #FAF8F5;
+            padding: 8px 4px;
+            text-align: center;
+            border-radius: 6px;
+            font-weight: 500;
+            color: #8A8480;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .grid-cell {
+            padding: 8px 4px;
+            text-align: center;
+            border-radius: 6px;
+            font-weight: 500;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .info-card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .info-card h3 {
+            font-size: 0.9em;
+            color: #7A7470;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .info-card ul {
+            list-style: none;
+            font-size: 0.8em;
+            color: #8A8480;
+        }
+
+        .info-card li {
+            padding: 3px 0;
+            padding-left: 14px;
+            position: relative;
+        }
+
+        .info-card li::before {
+            content: '·';
+            position: absolute;
+            left: 4px;
+            color: #C4B8B0;
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+            justify-content: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.75em;
+            color: #8A8480;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 12px; }
+            .time-label { width: 90px; font-size: 0.75em; }
+            .content .subject { font-size: 0.85em; }
+            .content .duration { font-size: 0.7em; }
+            .weekly-grid { font-size: 0.65em; }
+            .grid-header, .grid-cell, .grid-time { padding: 6px 2px; }
+            .footer-info { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>暑假学习时间表</h1>
+        <div class="subtitle">2026年7月 · 周一至周五 · 周末自行安排</div>
+    </div>
+
+    <!-- 每日时间表 -->
+    <div class="schedule-container">
+        <div class="section-title">每日时间表</div>
+
+        <div class="time-block homework">
+            <div class="time-label">09:00 - 09:30</div>
+            <div class="content">
+                <div>
+                    <div class="subject">暑假作业 P1</div>
+                </div>
+                <div class="duration">30 min</div>
+            </div>
+        </div>
+
+        <div class="time-block break">
+            <div class="time-label">09:30 - 09:35</div>
+            <div class="content">
+                <div>休息</div>
+                <div class="duration">5 min</div>
+            </div>
+        </div>
+
+        <div class="time-block homework">
+            <div class="time-label">09:35 - 10:05</div>
+            <div class="content">
+                <div>
+                    <div class="subject">暑假作业 P2</div>
+                </div>
+                <div class="duration">30 min</div>
+            </div>
+        </div>
+
+        <div class="time-block break">
+            <div class="time-label">10:05 - 10:15</div>
+            <div class="content">
+                <div>休息</div>
+                <div class="duration">10 min</div>
+            </div>
+        </div>
+
+        <div class="time-block homework">
+            <div class="time-label">10:15 - 10:45</div>
+            <div class="content">
+                <div>
+                    <div class="subject">暑假作业 P3</div>
+                </div>
+                <div class="duration">30 min</div>
+            </div>
+        </div>
+
+        <div class="time-block math">
+            <div class="time-label">10:45 - 11:30</div>
+            <div class="content">
+                <div>
+                    <div class="subject">数学预习</div>
+                    <div class="note">人教版九年级上册 · 自行掌握进度</div>
+                </div>
+                <div class="duration">45 min</div>
+            </div>
+        </div>
+
+        <div class="divider">· · · 午休 · · ·</div>
+
+        <div class="time-block mixed-test">
+            <div class="time-label">14:00 - 15:30</div>
+            <div class="content">
+                <div>
+                    <div class="subject">混合科目试卷</div>
+                    <div class="note">跨学科情境式 · 难度递增 · 中途不休息</div>
+                </div>
+                <div class="duration">90 min</div>
+            </div>
+        </div>
+
+        <div class="time-block break">
+            <div class="time-label">15:30 - 15:40</div>
+            <div class="content">
+                <div>休息</div>
+                <div class="duration">10 min</div>
+            </div>
+        </div>
+
+        <div class="time-block physics">
+            <div class="time-label">15:40 - 16:10</div>
+            <div class="content">
+                <div>
+                    <div class="subject">物理预习</div>
+                    <div class="note">人教版九年级 · 自行掌握进度</div>
+                </div>
+                <div class="duration">30 min</div>
+            </div>
+        </div>
+
+        <div class="time-block chemistry">
+            <div class="time-label">16:10 - 16:40</div>
+            <div class="content">
+                <div>
+                    <div class="subject">化学启蒙</div>
+                    <div class="note">人教版九年级上册 · 自行掌握进度</div>
+                </div>
+                <div class="duration">30 min</div>
+            </div>
+        </div>
+
+        <div class="time-block english">
+            <div class="time-label">16:40 - 17:10</div>
+            <div class="content">
+                <div>
+                    <div class="subject">英语新题型</div>
+                    <div class="note">语法填空 · 读写综合 · 观点表达</div>
+                </div>
+                <div class="duration">30 min</div>
+            </div>
+        </div>
+
+        <div class="divider">· · · 傍晚自由 · · ·</div>
+
+        <div class="time-block free">
+            <div class="time-label">17:10 - 20:00</div>
+            <div class="content">
+                <div>
+                    <div class="subject">随心配 + 打下手 + 晚饭 + 散步 + 冲凉</div>
+                </div>
+                <div class="duration">~3h</div>
+            </div>
+        </div>
+
+        <div class="time-block wrap-up">
+            <div class="time-label">20:00 - 21:00</div>
+            <div class="content">
+                <div>
+                    <div class="subject">收尾时段</div>
+                    <div class="note">试卷评析改正 · 科大讯飞下载 · 准备明天 · App打卡</div>
+                </div>
+                <div class="duration">60 min</div>
+            </div>
+        </div>
+
+        <div class="time-block chinese">
+            <div class="time-label">21:00 - 21:30</div>
+            <div class="content">
+                <div>
+                    <div class="subject">语文古诗词</div>
+                    <div class="note">每天背一首 · 艾宾浩斯复习 · 分析对仗工整度</div>
+                </div>
+                <div class="duration">30 min</div>
+            </div>
+        </div>
+
+        <div class="time-block daoli">
+            <div class="time-label">21:30 - 22:00</div>
+            <div class="content">
+                <div>
+                    <div class="subject">道法 / 历史（隔天轮换）</div>
+                    <div class="note">周一三五道法 · 周二四历史 · 学法为主</div>
+                </div>
+                <div class="duration">30 min</div>
+            </div>
+        </div>
+
+        <div class="time-block computer">
+            <div class="time-label">22:00 - 22:30</div>
+            <div class="content">
+                <div>
+                    <div class="subject">电脑（可选）</div>
+                    <div class="note">可压缩到30min或跳过</div>
+                </div>
+                <div class="duration">≤30 min</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 每周科目分布 -->
+    <div class="schedule-container">
+        <div class="section-title">每周科目分布</div>
+        <div class="weekly-grid">
+            <div class="grid-header">时段</div>
+            <div class="grid-header">周一</div>
+            <div class="grid-header">周二</div>
+            <div class="grid-header">周三</div>
+            <div class="grid-header">周四</div>
+            <div class="grid-header">周五</div>
+
+            <div class="grid-time">上午</div>
+            <div class="grid-cell homework">作业+数学</div>
+            <div class="grid-cell homework">作业+数学</div>
+            <div class="grid-cell homework">作业+数学</div>
+            <div class="grid-cell homework">作业+数学</div>
+            <div class="grid-cell homework">作业+数学</div>
+
+            <div class="grid-time">14:00<br>15:30</div>
+            <div class="grid-cell mixed-test">混合试卷</div>
+            <div class="grid-cell mixed-test">混合试卷</div>
+            <div class="grid-cell mixed-test">混合试卷</div>
+            <div class="grid-cell mixed-test">混合试卷</div>
+            <div class="grid-cell mixed-test">混合试卷</div>
+
+            <div class="grid-time">15:40<br>17:10</div>
+            <div class="grid-cell physics">物理+化学+英语</div>
+            <div class="grid-cell physics">物理+化学+英语</div>
+            <div class="grid-cell physics">物理+化学+英语</div>
+            <div class="grid-cell physics">物理+化学+英语</div>
+            <div class="grid-cell physics">物理+化学+英语</div>
+
+            <div class="grid-time">20:00<br>21:00</div>
+            <div class="grid-cell wrap-up">收尾</div>
+            <div class="grid-cell wrap-up">收尾</div>
+            <div class="grid-cell wrap-up">收尾</div>
+            <div class="grid-cell wrap-up">收尾</div>
+            <div class="grid-cell wrap-up">收尾</div>
+
+            <div class="grid-time">21:00<br>21:30</div>
+            <div class="grid-cell chinese">语文古诗词</div>
+            <div class="grid-cell chinese">语文古诗词</div>
+            <div class="grid-cell chinese">语文古诗词</div>
+            <div class="grid-cell chinese">语文古诗词</div>
+            <div class="grid-cell chinese">语文古诗词</div>
+
+            <div class="grid-time">21:30<br>22:00</div>
+            <div class="grid-cell daoli">道法</div>
+            <div class="grid-cell daoli">历史</div>
+            <div class="grid-cell daoli">道法</div>
+            <div class="grid-cell daoli">历史</div>
+            <div class="grid-cell daoli">道法</div>
+        </div>
+    </div>
+
+    <!-- 统计与说明 -->
+    <div class="footer-info">
+        <div class="info-card">
+            <h3>每日学习统计</h3>
+            <ul>
+                <li>暑假作业：90 min（番茄工作法）</li>
+                <li>数学预习：45 min</li>
+                <li>物理预习：30 min</li>
+                <li>化学启蒙：30 min</li>
+                <li>英语新题型：30 min</li>
+                <li>混合试卷：90 min</li>
+                <li>语文古诗词：30 min</li>
+                <li>道法/历史：30 min（隔天）</li>
+                <li>收尾时段：60 min</li>
+                <li><strong>合计：约 7.5 小时/天</strong></li>
+            </ul>
+        </div>
+        <div class="info-card">
+            <h3>说明</h3>
+            <ul>
+                <li>周末双休，自行安排</li>
+                <li>预习进度自行掌握，通过App打卡汇报</li>
+                <li>混合试卷由AI根据科大讯飞PDF编排，难度递增</li>
+                <li>电脑时间可压缩或跳过</li>
+                <li>番茄休息：P1后5min，P2后10min</li>
+                <li>道法/历史隔天轮换，以学法为主</li>
+                <li>8月计划待定（含新东方语文班+北京之行）</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 图例 -->
+    <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#D5CDC8"></div>暑假作业</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#A8B5C4"></div>数学</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#9CAF88"></div>物理</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#C4A9A8"></div>化学</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#A89BB0"></div>英语</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#BC8F7A"></div>混合试卷</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#D4C5B0"></div>收尾</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#D4A5A5"></div>语文</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#A8B098"></div>道法/历史</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#B0B8C0"></div>电脑</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#EAE7E4"></div>休息</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#EDE9E4"></div>自由</div>
+    </div>
+
+</body>
+</html>
